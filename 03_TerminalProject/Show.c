@@ -6,6 +6,14 @@
 #define KEY_SPACE 32
 #define KEY_ESC   27
 
+int min(int x, int y) {
+    return x < y ? x : y;
+}
+
+int max(int x, int y) {
+    return x < y ? y : x;
+}
+
 typedef struct File {
     int file_exist;
     int number_lines;
@@ -59,7 +67,7 @@ File read_file(char* filename)
         }
     } while((lines[number_cur_line++] = read_line(ptrFile)) != NULL);
 
-    file.number_lines = number_cur_line - 1;
+    file.number_lines = number_cur_line;
     file.lines = lines;
     return file;
 }
@@ -81,16 +89,23 @@ void show_console(File file)
     win = newwin(height, width, DX, DX);
     keypad(win, TRUE);
     curs_set(0);
+
+    int top_line_number = 0;
+    int bottom_line_number = min(height, file.number_lines);
     do {
         werase(win);
-        wmove(win, 1, 0);
+        wmove(win, 0, 0);
 
         switch (key)
         {
             case KEY_UP:
+                top_line_number = max(top_line_number - 1, 0);
+                bottom_line_number = max(bottom_line_number - 1, min(height, file.number_lines));
                 break;
             case KEY_DOWN:
             case KEY_SPACE:
+                top_line_number = min(top_line_number + 1, file.number_lines - height);
+                bottom_line_number = min(bottom_line_number + 1, file.number_lines);
                 break;
             case KEY_RIGHT:
                 break;
@@ -100,9 +115,9 @@ void show_console(File file)
                 break;
         }
 
-        wprintw(win, "  Key: %d, Name: %s\n;", key, keyname(key));
-        wprintw(win, "  COL: %d, LINES: %d\n", COLS, LINES);
-        wprintw(win, "  %s", file.lines[5]);
+        for(int i = top_line_number; i <= bottom_line_number; ++i) {
+            wprintw(win, " %s\n", file.lines[i]);
+        } 
 
         box(win, 0, 0);
         wrefresh(win);
