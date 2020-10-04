@@ -1,5 +1,6 @@
 #include <ncurses.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define DX 3
 
@@ -20,6 +21,14 @@ typedef struct File {
     char* filename;
     char** lines;
 } File;
+
+void free_file(File file) {
+	for (int i = 0; i < file.number_lines; ++i)
+	{
+		free(file.lines[i]);
+	}
+	free(file.lines);
+}
 
 char *read_line(FILE *ptrFile)
 {
@@ -67,7 +76,7 @@ File read_file(char* filename)
         }
     } while((lines[number_cur_line++] = read_line(ptrFile)) != NULL);
 
-    file.number_lines = number_cur_line;
+    file.number_lines = number_cur_line - 1;
     file.lines = lines;
     return file;
 }
@@ -80,7 +89,7 @@ void show_console(File file)
     initscr();
     noecho();
     cbreak();
-    printw("File: %s;", file.filename);
+    printw("File: %s; size: %d", file.filename, file.number_lines);
     refresh();
 
     int width = COLS - 2 * DX;
@@ -90,33 +99,44 @@ void show_console(File file)
     keypad(win, TRUE);
     curs_set(0);
 
+    int view_width = width - 2;
+    int view_height = height - 2;
+    
+
     int top_line_number = 0;
-    int bottom_line_number = min(height, file.number_lines);
+    int bottom_line_number = min(view_height, file.number_lines);
+    int left_column_number = 0;
     do {
         werase(win);
-        wmove(win, 0, 0);
+        wmove(win, 1, 0);
 
         switch (key)
         {
             case KEY_UP:
                 top_line_number = max(top_line_number - 1, 0);
-                bottom_line_number = max(bottom_line_number - 1, min(height, file.number_lines));
+                bottom_line_number = max(bottom_line_number - 1, min(view_height, file.number_lines));
                 break;
             case KEY_DOWN:
             case KEY_SPACE:
-                top_line_number = min(top_line_number + 1, file.number_lines - height);
+                top_line_number = min(top_line_number + 1, file.number_lines - view_height);
                 bottom_line_number = min(bottom_line_number + 1, file.number_lines);
                 break;
             case KEY_RIGHT:
+                left_column_number++;
                 break;
             case KEY_LEFT:
+                left_column_number = max(left_column_number - 1, 0);
                 break;
             default:
                 break;
         }
 
-        for(int i = top_line_number; i <= bottom_line_number; ++i) {
-            wprintw(win, " %s\n", file.lines[i]);
+        char output_line[width - 6];
+        output_line[width - 7] = 0;
+        for(int i = top_line_number; i < bottom_line_number; i++) {
+            wprintw(win, " %3d: ", i + 1);
+            strncpy(output_line, file.lines[i] + left_column_number, width - 7);
+            wprintw(win, "%s\n", output_line);
         } 
 
         box(win, 0, 0);
@@ -138,5 +158,6 @@ int main(int argc, char **argv)
         show_console(file);
     }
 
+    free_file(file);
 	return 0;
 }
