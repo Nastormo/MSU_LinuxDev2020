@@ -1,4 +1,5 @@
 #include <ncurses.h>
+#include <stdlib.h>
 
 #define DX 3
 
@@ -6,15 +7,64 @@
 #define KEY_ESC   27
 
 typedef struct File {
-    char* Text;
+    int file_exist;
+    int number_lines;
+    char* filename;
+    char** lines;
 } File;
 
-File read_file(const char* filename)
+char *read_line(FILE *ptrFile)
 {
+    int fgetcResult = fgetc(ptrFile);
 
+    if(EOF == fgetcResult) {
+        return NULL;
+    }
+
+    int size_buffer_line = 30;
+    char *line = (char*) malloc(size_buffer_line);
+    int pos = 0;
+
+    while((EOF != fgetcResult) && ('\n' != fgetcResult)) {
+        if (pos + 2 >= size_buffer_line) {
+            size_buffer_line *= 2;
+            line = (char *) realloc(line, size_buffer_line*sizeof(char));
+        }
+        line[pos++] = (char) fgetcResult;
+        fgetcResult = fgetc(ptrFile);
+    }
+    line[pos] = 0;
+    return line;
 }
 
-void show_console(const char* filename)
+File read_file(char* filename)
+{
+    File file;
+    file.filename = filename;
+    FILE *ptrFile = fopen(file.filename, "r");
+    if(ptrFile == NULL) {
+        printf("File %s not exist \n", file.filename);
+        file.file_exist = 0;
+        return file;
+    }
+    file.file_exist = 1;
+    int size_buffer_lines = 30;
+    char **lines = (char **) malloc(size_buffer_lines * sizeof(char*));
+    int number_cur_line = 0;
+    int flagEOF = 0;
+    do {
+        if (number_cur_line >= size_buffer_lines) {
+            size_buffer_lines *= 2;
+            lines = (char **) realloc(lines, size_buffer_lines*sizeof(char*));
+        }
+    } while((lines[number_cur_line++] = read_line(ptrFile)) != NULL);
+
+    file.number_lines = number_cur_line - 1;
+    file.lines = lines;
+    return file;
+}
+
+void show_console(File file)
 {
     WINDOW *win;
     int key = 0;
@@ -22,7 +72,7 @@ void show_console(const char* filename)
     initscr();
     noecho();
     cbreak();
-    printw("File: %s;", filename);
+    printw("File: %s;", file.filename);
     refresh();
 
     int width = COLS - 2 * DX;
@@ -38,14 +88,21 @@ void show_console(const char* filename)
         switch (key)
         {
             case KEY_UP:
+                break;
             case KEY_DOWN:
             case KEY_SPACE:
+                break;
             case KEY_RIGHT:
+                break;
             case KEY_LEFT:
+                break;
+            default:
+                break;
         }
 
-        wprintw(win, "  Key: %d, Name: %s\n; COL: %d, LINES: %d", key, keyname(key), COLS, LINES);
-
+        wprintw(win, "  Key: %d, Name: %s\n;", key, keyname(key));
+        wprintw(win, "  COL: %d, LINES: %d\n", COLS, LINES);
+        wprintw(win, "  %s", file.lines[5]);
 
         box(win, 0, 0);
         wrefresh(win);
@@ -61,8 +118,10 @@ int main(int argc, char **argv)
         return -1;
     }
 
-    read_file(argv[1]);
-    show_console(argv[1]);
+    File file = read_file(argv[1]);
+    if (file.file_exist) {
+        show_console(file);
+    }
 
 	return 0;
 }
