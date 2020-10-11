@@ -1,3 +1,7 @@
 README
 *.o
+*.a
+*.so
 prog
+prog-a
+prog-so
