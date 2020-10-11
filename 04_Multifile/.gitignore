@@ -3,5 +3,8 @@ README
 *.a
 *.so
 prog
+prog_*
 prog-a
+prog-a_*
 prog-so
+prog-so_*
