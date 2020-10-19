@@ -17,8 +17,8 @@ void pcre(WINDOW *win, char* inA, char* inB)
 {
     wprintw(win, " '%s' : '%s'\n", inA, inB);
     pcre2_code *re;
-    PCRE2_SPTR pattern;     /* PCRE2_SPTR is a pointer to unsigned code units of */
-    PCRE2_SPTR subject;     /* the appropriate width (in this case, 8 bits). */
+    PCRE2_SPTR pattern;
+    PCRE2_SPTR subject;
 
     int errnum;
     int i, rc;
@@ -36,6 +36,7 @@ void pcre(WINDOW *win, char* inA, char* inB)
 #if USE_UTF
     re = pcre2_compile(pattern, PCRE2_ZERO_TERMINATED, PCRE2_UCP, &errnum, &erroffs, NULL);
 #else
+    //wprintw(win, "Disable");
     re = pcre2_compile(pattern, PCRE2_ZERO_TERMINATED, 0, &errnum, &erroffs, NULL);
 #endif
 
@@ -60,8 +61,8 @@ void pcre(WINDOW *win, char* inA, char* inB)
             wprintw(win, " Matching error %d\n", rc);
             break;
         }
-        pcre2_match_data_free(match_data);   /* Release memory used for the match */
-        pcre2_code_free(re);                 /*   data and the compiled pattern. */
+        pcre2_match_data_free(match_data);
+        pcre2_code_free(re);
         return;
     }
 
@@ -72,8 +73,8 @@ void pcre(WINDOW *win, char* inA, char* inB)
                     (int)(ovector[2*i+1] - ovector[2*i]),
                     subject + ovector[2*i]);
 
-    pcre2_match_data_free(match_data);  /* Release the memory that was used */
-    pcre2_code_free(re);                /* for the match data and the pattern. */
+    pcre2_match_data_free(match_data);
+    pcre2_code_free(re);
 
     return;
 }
@@ -100,6 +101,10 @@ void main() {
     keypad(winB, TRUE);
     scrollok (winO, TRUE);
     wmove(winO, 1, 0);
+
+    box(winO, 0, 0); wrefresh(winO);
+    box(winA, 0, 0); wrefresh(winA);
+    box(winB, 0, 0); wrefresh(winB);
     do {
         werase(winA); box(winA, 0, 0);
         mvwgetnstr(winA, 1, 1, inA, MAXSTR);
