@@ -4,13 +4,6 @@ INCLUDE(CheckIncludeFiles)
 
 project(Window)
 
-set(TRASH "CMakeFiles cmake_install.cmake CMakeCache.txt window")
-
-add_custom_target(allclean rm -rf ${TRASH}
-    DEPENDS ${TRASH}
-    VERBATIM
-)
-
 find_library(NCURSESW_LIBRARY ncursesw)
 if (NOT NCURSESW_LIBRARY)
     message(FATAL_ERROR "ncursesw not found")
@@ -46,3 +39,7 @@ endif()
 add_executable(window ${SOURCE_EXE})
 
 target_link_libraries(window ${NCURSESW_LIBRARY} ${PCRE2_LIBRARY})
+
+add_custom_target(allclean
+    COMMAND rm -rf CMakeFiles cmake_install.cmake CMakeCache.txt window Makefile
+)
