@@ -1,0 +1,17 @@
+set(LIB_SOURCES
+  buf.c
+)
+
+set(HEADERS 
+  ${CONFIG_HEADER}
+  buf.h
+)
+
+add_library(buf SHARED ${LIB_SOURCES} ${HEADERS})
+
+install(TARGETS buf
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib)
+
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/buf.h DESTINATION include)
