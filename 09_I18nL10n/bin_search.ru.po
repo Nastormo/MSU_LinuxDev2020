@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  09_I18nL10n\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-13 01:07+0300\n"
+"POT-Creation-Date: 2020-11-14 20:04+0300\n"
 "PO-Revision-Date: 2020-11-13 00:01+0300\n"
 "Last-Translator: Lev <lev@lev-gp62-2qe>\n"
 "Language-Team: Russian\n"
@@ -28,7 +28,41 @@ msgstr "Выберите число от 1 до 100: "
 msgid "Your number greater than %d?: "
 msgstr "Ваше число больше чем %d?: "
 
+#: bin_search.c:27
+msgid "Yes"
+msgstr "Да"
+
+#: bin_search.c:28
+msgid "Y"
+msgstr "Д"
+
+#: bin_search.c:29
+#, fuzzy
+msgid "yes"
+msgstr "Да"
+
+#: bin_search.c:30
+msgid "y"
+msgstr "д"
+
+#: bin_search.c:32
+msgid "No"
+msgstr "Нет"
+
 #: bin_search.c:33
+#, fuzzy
+msgid "N"
+msgstr "Нет"
+
+#: bin_search.c:34
+msgid "no"
+msgstr "нет"
+
+#: bin_search.c:35
+msgid "n"
+msgstr "н"
+
+#: bin_search.c:39
 #, c-format
 msgid "Selected value: %d"
 msgstr "Выбранное число: %d"

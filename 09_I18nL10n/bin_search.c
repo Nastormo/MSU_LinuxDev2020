@@ -24,9 +24,15 @@ int main(int argc, char **argv)
         middle = (left + right) / 2;
         printf(_("Your number greater than %d?: "), middle);
         scanf("%s", answer);
-        if (strstr(_(answer), "Yes")) {
+        if (strstr(answer, _("Yes")) || 
+            strstr(answer, _("Y")) || 
+            strstr(answer, _("yes")) || 
+            strstr(answer, _("y"))) {
             left = middle + 1;
-        } else if (strstr(_(answer), "No")) {
+        } else if (strstr(answer, _("No")) ||
+            strstr(answer, _("N")) ||
+            strstr(answer, _("no")) ||
+            strstr(answer, _("n"))) {
             right = middle;
         }
     }
