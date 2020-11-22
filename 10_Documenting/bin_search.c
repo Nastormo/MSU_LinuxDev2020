@@ -32,9 +32,9 @@
 #define _(STRING) gettext(STRING)
 #define LOCALE_PATH "."
 
-#define MAX_ROMAN 3999  ///Максимальное переводимое число
-#define SYMBOL_ROMAN 28 ///Количество элементов в мапе
-#define MAX_STRING 80   ///Максимальное количество символов в строке
+#define MAX_ROMAN 3999  ///<Максимальное переводимое число
+#define SYMBOL_ROMAN 28 ///<Количество элементов в мапе
+#define MAX_STRING 80   ///<Максимальное количество символов в строке
 
 static int arabValue[SYMBOL_ROMAN] = {
     1000, //0
@@ -100,14 +100,14 @@ static char romanValue[SYMBOL_ROMAN][MAX_STRING] = {
 
 ///Набор возможных записей чисел
 enum NumberType {
-    NUMBER_NORMAL = 0, ///Арабская запись
-    NUMBER_ROMAN       ///Римская запись
+    NUMBER_NORMAL = 0, ///<Арабская запись
+    NUMBER_ROMAN       ///<Римская запись
 };
 
 ///Набор возможных типов работы
 enum WorkType {
-    WORK_NORMAL = 0, ///Стандартная работа
-    WORK_HELP        ///Печать информационной сводки
+    WORK_NORMAL = 0, ///<Стандартная работа
+    WORK_HELP        ///<Печать информационной сводки
 };
 
 /*!
@@ -116,8 +116,8 @@ enum WorkType {
  * Данная структура содержит конфигурацию работы программы
  */
 struct Config {
-    enum NumberType numberType; ///Тип представления чисел
-    enum WorkType workType;     ///Тип работы программы
+    enum NumberType numberType; ///<Тип представления чисел
+    enum WorkType workType;     ///<Тип работы программы
 };
 
 /*!
