@@ -30,3 +30,4 @@ clean:
 	-rm bin_search
 	-rm test
 	-rm *~
+	-rm -rf html
