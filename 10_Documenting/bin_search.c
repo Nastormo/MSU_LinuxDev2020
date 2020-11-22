@@ -1,3 +1,29 @@
+/*! 
+ * \mainpage Главная страница
+ * Использование: bin_search [ОПЦИИ]
+ * 
+ * Мини игра по угадыванию чисел.
+ * 
+ * Опции:
+ * 
+ *     -r, --roman    римское представление чисел
+ * 
+ *     -h, --help    печать информации о приложении
+ * 
+ * Это мини игра где вам необходимо выбрать число от 1
+ * 
+ * до 100, а программа угадает его при помощи бин поиска.
+ */
+
+/*! 
+ *  \file bin_search.c
+ *  \brief Главный C файл 
+ *  \authors Лев Смирнов
+ *  \version 1.0
+ *  \date 21.11.2020
+ *  Данный файл содержит основную логику программы
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -6,9 +32,9 @@
 #define _(STRING) gettext(STRING)
 #define LOCALE_PATH "."
 
-#define MAX_ROMAN 3999
-#define SYMBOL_ROMAN 28
-#define MAX_STRING 80
+#define MAX_ROMAN 3999  ///Максимальное переводимое число
+#define SYMBOL_ROMAN 28 ///Количество элементов в мапе
+#define MAX_STRING 80   ///Максимальное количество символов в строке
 
 static int arabValue[SYMBOL_ROMAN] = {
     1000, //0
@@ -72,21 +98,33 @@ static char romanValue[SYMBOL_ROMAN][MAX_STRING] = {
     "I"     //27
 };
 
+///Набор возможных записей чисел
 enum NumberType {
-    NUMBER_NORMAL = 0,
-    NUMBER_ROMAN
+    NUMBER_NORMAL = 0, ///Арабская запись
+    NUMBER_ROMAN       ///Римская запись
 };
 
+///Набор возможных типов работы
 enum WorkType {
-    WORK_NORMAL = 0,
-    WORK_HELP
+    WORK_NORMAL = 0, ///Стандартная работа
+    WORK_HELP        ///Печать информационной сводки
 };
 
+/*!
+ * \brief Структура хранящая в себе состояние программы
+ * 
+ * Данная структура содержит конфигурацию работы программы
+ */
 struct Config {
-    enum NumberType numberType;
-    enum WorkType workType;
+    enum NumberType numberType; ///Тип представления чисел
+    enum WorkType workType;     ///Тип работы программы
 };
 
+/*!
+ * Переводит арабскую запись числа в римскую.
+ * \param n Число в арабской записи
+ * \return Число в римской записи в виде строки
+ */
 char* intToRoman(int n) 
 {
     if (n < 0 || n > MAX_ROMAN) return NULL;
@@ -105,6 +143,11 @@ char* intToRoman(int n)
     return romanN;
 }
 
+/*!
+ * Переводит римскую запись числа в арабскую.
+ * \param romanN число в римской в виде строки
+ * \return Число в арабской записи в виде челочисленного числа
+ */
 int romanToInt(char* romanN) {
     int n = 0;
     int curN = 0;
@@ -120,6 +163,13 @@ int romanToInt(char* romanN) {
     return n;
 }
 
+/*!
+ * Парсинг входных данных.
+ * \param argc Число параметров
+ * \param argv Параметры в виде масива строк
+ * \param conf Конфигурация работы програмы
+ * \return Число в арабской записи в виде челочисленного числа
+ */
 void checkParam(int argc, char **argv, struct Config* conf) {
     for (int i = 0; i < argc; i++) {
         if (strcmp(argv[i], "--roman") == 0 || strcmp(argv[i], "-r") == 0) {
@@ -130,6 +180,9 @@ void checkParam(int argc, char **argv, struct Config* conf) {
     }
 }
 
+/*!
+ * Печать информационной справки.
+ */
 void printHelp() {
     printf("%s", _(
         "Usage: bin_search [OPTION]\n"
@@ -142,6 +195,12 @@ void printHelp() {
     ));
 }
 
+/*!
+ * Главная функция программы.
+ * \param argc Число параметров
+ * \param argv Параметры в виде масива строк
+ * \return Код завершения программы
+ */
 int main(int argc, char **argv)
 {
     setlocale(LC_ALL,"");

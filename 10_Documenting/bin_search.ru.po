@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MSU_LinuxDev 2020\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-21 22:49+0300\n"
+"POT-Creation-Date: 2020-11-22 00:19+0300\n"
 "PO-Revision-Date: 2020-11-21 22:44+0300\n"
 "Last-Translator: Lev <lev@lev-gp62-2qe>\n"
 "Language-Team: Russian\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: bin_search.c:135
+#: bin_search.c:188
 msgid ""
 "Usage: bin_search [OPTION]\n"
 "Number guessing mini game.\n"
@@ -40,64 +40,64 @@ msgstr ""
 "Это мини игра где вам необходимо выбрать число от 1\n"
 "до 100, а программа угадает его при помощи бин поиска.\n"
 
-#: bin_search.c:166
+#: bin_search.c:225
 #, c-format
 msgid "Choose number from 1 to 100\n"
 msgstr "Выберите число от 1 до 100\n"
 
-#: bin_search.c:168
+#: bin_search.c:227
 #, c-format
 msgid "Choose number from %s to %s\n"
 msgstr "Выберите число от %s до %s\n"
 
-#: bin_search.c:173
+#: bin_search.c:232
 #, c-format
 msgid "Your number greater than %d?: "
 msgstr "Ваше число больше чем %d?: "
 
-#: bin_search.c:175
+#: bin_search.c:234
 #, c-format
 msgid "Your number greater than %s?: "
 msgstr "Ваше число больше чем %s?: "
 
-#: bin_search.c:178
+#: bin_search.c:237
 msgid "Yes"
 msgstr "Да"
 
-#: bin_search.c:179
+#: bin_search.c:238
 msgid "Y"
 msgstr "Д"
 
-#: bin_search.c:180
+#: bin_search.c:239
 msgid "yes"
 msgstr "да"
 
-#: bin_search.c:181
+#: bin_search.c:240
 msgid "y"
 msgstr "д"
 
-#: bin_search.c:183
+#: bin_search.c:242
 msgid "No"
 msgstr "Нет"
 
-#: bin_search.c:184
+#: bin_search.c:243
 msgid "N"
 msgstr "Н"
 
-#: bin_search.c:185
+#: bin_search.c:244
 msgid "no"
 msgstr "нет"
 
-#: bin_search.c:186
+#: bin_search.c:245
 msgid "n"
 msgstr "н"
 
-#: bin_search.c:191
+#: bin_search.c:250
 #, c-format
 msgid "Selected value: %d"
 msgstr "Выбранное число: %d"
 
-#: bin_search.c:193
+#: bin_search.c:252
 #, c-format
 msgid "Selected value: %s"
 msgstr "Выбранное число: %s"

@@ -21,6 +21,9 @@ update.pot: bin_search.pot bin_search.c
 	cp bin_search.pot update.pot
 	msgmerge -U update.pot update.new.pot
 
+doxygen: Doxyfile
+	doxygen $<
+
 clean:
 	-rm -rf ru
 	-rm update*
