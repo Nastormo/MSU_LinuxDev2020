@@ -7,6 +7,24 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+struct Data {
+    char* word;
+    int val;
+};
+
+gint compare_func(gconstpointer a, gconstpointer b) {
+    struct Data* da = (struct Data*)a;
+    struct Data* db = (struct Data*)b;
+    return db->val - da->val;
+}
+
+void printTable (gpointer key, gpointer value, gpointer array) {
+    struct Data *t = malloc(sizeof(struct Data));
+    t -> word = key;
+    t -> val = GPOINTER_TO_INT(value);
+    g_array_append_val((GArray*)array, *t);
+}
+
 int main(int argc, char** argv) {
     if (argc < 2) {
         g_printf("hashTable <out_file>\n");
@@ -16,6 +34,10 @@ int main(int argc, char** argv) {
     ssize_t read;
     int *val;
     char** mas_word;
+    int size;
+    struct Data* sortData;
+    GArray* array; 
+    array = g_array_new(FALSE, FALSE, sizeof(struct Data));                     
     
     FILE * f = g_fopen(argv[1], "r");
     if (f == NULL) {
@@ -26,7 +48,9 @@ int main(int argc, char** argv) {
     GHashTable* table = g_hash_table_new(g_str_hash, g_str_equal);
 
     while ((read = getline(&line, &len, f)) != -1) {
-        g_printf("%s %ld\n", line,  len);
+        if (line[strlen(line) - 1] == '\n') {
+            line[strlen(line) - 1] = '\0';
+        }
         mas_word = g_strsplit(line, " ", 0);
         int i = 0;
         while(mas_word[i] != NULL) {
@@ -41,12 +65,17 @@ int main(int argc, char** argv) {
         }
         g_strfreev(mas_word);
     }
+    fclose(f);
+    size = g_hash_table_size(table);
+    g_hash_table_foreach(table, (GHFunc)printTable, array);
     g_hash_table_destroy(table);
 
-    fclose(f);
-    // if (line)
-    //     free(line);
-    // exit(EXIT_SUCCESS);
-    //g_strsplit ()
+    g_array_sort(array, (GCompareFunc)compare_func);
+    for (int i = 0; i < size; i++) {
+        sortData = &g_array_index (array, struct Data, i);
+        printf("%s %d\n", sortData->word, sortData->val);
+        free(sortData->word);
+    }
+    g_array_free(array, TRUE);
     return 0;
 }
