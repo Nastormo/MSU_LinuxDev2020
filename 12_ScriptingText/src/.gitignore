@@ -1,0 +1,6 @@
+/.deps
+/.libs
+/libbuf.la
+/libbuf.lo
+/Makefile
+/Makefile.in

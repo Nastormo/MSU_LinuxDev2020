@@ -1,0 +1,14 @@
+/autom4te.cache
+/aclocal.m4
+/compile
+/config.*
+/configure
+/depcomp
+/install-sh
+/libtool
+/ltmain.sh
+/Makefile
+/Makefile.in
+/missing
+/stamp-h1
+/test-driver
